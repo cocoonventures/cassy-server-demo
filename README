@@ -1,0 +1,46 @@
+== Cassy server demo
+
+== Overview
+
+This is a bare-bones Rails 3.1.1 application showing how to use Cassy, a Rails engine built on rubycas-server. cas-server doesn't care what type of authentication you use, but this demo uses Devise https://github.com/plataformatec/devise
+
+This demo goes hand-in-hand with the Cassy client demo https://github.com/macmartine/cassy-client-demo
+
+== Resources
+
+You don't "need" to do anything with any of the following apps directly, but in case you want to check them out:
+
+The main cassy repo is at https://github.com/rubyx/cassy
+
+However, at the time of this writing, this demo requires the fork at https://github.com/macmartine/cassy which has been updated for Rails 3.1.1 so that is the one this demo uses.
+
+rubycas-server https://github.com/gunark/rubycas-server
+
+== Running the demo
+
+The easiest way to get this running is to clone the Cassy client demo and the Cassy server demo. Then run the client on port 3000 (the usual default), and the server on port 3001 (%rails server -p 3001 -or- passenger start -p 3001, depending on your server of choice)
+
+Then go to http://localhost:3000 (the client) and you should then be redirect to  http://localhost:3001/cas/login?service={...} (the server) to login (or create an account)
+After creating an account and logging in you will be redirected to the client. Note that if you go directly to the login screen and login, you will end up right back on the login screen, not the client. This is because the server only knows where to send you after login when you are sent to the login screen with a service parameter (the source/destination).
+
+Don't forget I said this was bare bones. To logout you will have to delete the relevant localhost cookies. I didn't want to add any more code than necessary to show how this works.
+
+== Steps taken to get this working
+
+In addition to the steps on https://github.com/rubyx/cassy here is what it took to create these demos:
+
+* Add devise to your server and client application
+* Create a devise model (of the same name) in your server and client application
+* Run your devise migrations 
+* Add your devise routes in the server and client application
+* Add your cassy routes in the server application
+* Add devise_cas_authenticatable gem to the client application
+* Add 'devise :cas_authenticatable' to your devise model in your client application
+* Create a view file for sessions (mine is views/users/sessions/new.html.erb). I mainly just did this so add a 'create an account' link.
+* Override the Devise after_sign_in_path_for method in the client applications application_controller
+* Add 'config.cas_base_url' to devise.rb of the client application to point to your server application
+* Add 'config.cas_username_column' to devise.rb of the client application if you want to use say 'email' instead of 'username' for accounts
+
+== Thanks!
+
+Many thanks to Ryan Bigg https://github.com/radar for kindly answering my questions as I was getting this to work.

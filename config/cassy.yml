@@ -1,0 +1,16 @@
+# Times are in seconds.
+maximum_unused_login_ticket_lifetime: 300
+maximum_unused_service_ticket_lifetime: 300
+
+maximum_session_lifetime: 7200
+
+username_field: email
+username_label: Email
+
+client_app_user_field: email 
+
+service_list:
+  - http://localhost:3000/users/service
+  
+authenticator:
+  class: Cassy::Authenticators::Devise
